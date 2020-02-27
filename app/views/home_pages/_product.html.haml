@@ -1,0 +1,15 @@
+.container.mt-5
+  %h3
+    =link_to product.title, product_show_path(product), method: :get
+  %li
+    Description -
+    = product.description
+  %li
+    Price -
+    = product.price
+  %li
+    id -
+    = product.id
+  %p
+    - product.images.each do |img|
+      = image_tag(img, size: "50x50")

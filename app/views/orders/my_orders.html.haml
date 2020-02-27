@@ -1,0 +1,22 @@
+.container.mt-5
+  %h4
+    Your Order History
+  -@user_order_history.each do |order|
+    .card.border-primary.mb-3.order-box
+      .field
+        Order Id -
+        = order.id
+      .field
+        Price -
+        = order.price
+      .field
+        Address -
+        %br
+          = render 'addresses/address', address: order.address, remove_actions: true
+      %h4
+        Items -
+      -order.order_line_items.each do |order_item|
+        = render "home_pages/product", product: order_item.product
+        Quantity
+        = order_item.quantity || 0
+  -# -order.order_line_it

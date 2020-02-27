@@ -1,0 +1,9 @@
+.container.mt-5
+  order summary
+  %h4
+    Total Price -
+    =@total_price
+  Address
+  = render 'addresses/address', address: @current_address, remove_actions: true
+  .btn.btn-success
+    =link_to 'Place Order', create_order_path, method: :post

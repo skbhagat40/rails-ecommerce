@@ -1,0 +1,19 @@
+!!!
+%html
+  %head
+    -#%javascript_in
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title ECommerce
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+  %body
+    = render "layouts/header"
+    -if notice
+      %p.alert.alert-success
+        =notice
+    -if alert
+      %p.alert.alert-danger
+        =alert
+    = yield

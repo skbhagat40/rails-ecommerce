@@ -1,0 +1,6 @@
+-#%h1 New review
+.container.mt-5.mt-6
+= form_for @review, url: create_product_review_path(@product.id), html: {method: :post} do |f|
+  = render 'form', f: f
+
+= link_to 'Back', product_show_path(@product.id)

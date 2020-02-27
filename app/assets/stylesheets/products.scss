@@ -1,0 +1,29 @@
+// Place all the styles related to the products controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+.images{
+  margin-top: 30px;
+}
+.top-div{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.image-container{
+  width: 40%;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+}
+#cart_link{
+  display: none;
+}
+#wishlist_link{
+  display: none;
+}
+#product_id{
+  display: none;
+}
+.head {
+  margin-bottom: 20px;
+}

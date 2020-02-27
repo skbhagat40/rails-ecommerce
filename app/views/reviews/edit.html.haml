@@ -1,0 +1,4 @@
+%h1 Editing review
+= form_for @review, url: update_product_review_path(@product.id, @review.id), html: {method: :put} do |f|
+  = render 'form', f: f
+= link_to 'Back', product_show_path(@product.id)

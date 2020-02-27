@@ -1,0 +1,4 @@
+-@products.each do |product|
+  = render "product", product: product
+  -if @products.length == 0
+    There are no products in this category.

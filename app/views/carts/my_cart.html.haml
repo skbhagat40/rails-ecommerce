@@ -1,0 +1,28 @@
+.container
+  %h2.mt-5.mt-6
+    Your Cart
+  - if @cart_items && @cart_items.keys.length > 0
+    -@cart_items.each do |product_id, quantity|
+      .row
+        - if !(product_id.nil? && quantity.nil?) && Product.find_by(id: product_id)
+          .col.col-xs
+            =render "home_pages/product", product: Product.find_by(id: product_id)
+          .col.col-xs
+            %h4
+              Quantity
+              =form_with(url: update_cart_item_path, method: :put) do |f|
+                = f.hidden_field :product_id, :value => product_id
+                = f.number_field :quantity, :value => quantity, min: 0
+                .actions
+                = f.submit "Update Quantity"
+                %br
+              -# = quantity
+              %br
+              %btn.btn.btn-danger
+                =link_to "Remove From Cart", delete_cart_item_path(product_id), method: :delete
+  - else
+    There are no items in your cart.
+  %footer.mt-5
+    - if session[:products] && session[:products].values.select {|v| v.to_i > 0}.length > 0
+      %btn.btn.btn-danger
+        =link_to 'Proceed To Checkout', checkout_path

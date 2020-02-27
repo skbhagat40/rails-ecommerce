@@ -1,0 +1,23 @@
+- if @address.errors.any?
+  #error_explanation
+    %h2= "#{pluralize(@address.errors.count, "error")} prohibited this product from being saved:"
+    %ul
+      - @address.errors.full_messages.each do |message|
+        %li= message
+.field
+  = f.label :locality
+  = f.text_field :locality
+.field
+  = f.label :state
+  = f.text_field :state
+.field
+  = f.label :country
+  = f.text_field :country
+.field
+  = f.label :pin_code
+  = f.number_field :pin_code
+.field
+  = f.label :address_type
+  = f.select :address_type, options_for_select(Address.address_types.map {|k,v| [k.humanize.capitalize, k]})
+.actions
+  = f.submit 'Save'
