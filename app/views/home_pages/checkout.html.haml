@@ -1,0 +1,22 @@
+.container.mt-5
+  -if @addresses.length > 0
+    %h4
+      Please Select An Address
+    =form_with(url: update_cart_item_path, html: {method: :put}) do |f|
+      -@addresses.each do |address|
+        =f.hidden_field :redirect, :value => checkout_path
+        =f.radio_button(:current_address, address.id, :checked => address.id.to_i == session[:current_address].to_i)
+        %ul
+          = render 'addresses/address', address: address
+        %br
+      .actions
+        =f.submit 'Select'
+  %br
+    %br
+    %p
+      =link_to 'Add a new address', new_user_address_path(current_user.id, :redirect => checkout_path), class: "text-info"
+  -if session[:current_address]
+    .btn.btn-primary
+      =link_to 'Continue', order_summary_path
+  -else
+    Please Select An Address To Continue

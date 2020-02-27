@@ -1,0 +1,17 @@
+Locality -
+=address.locality
+%br
+State -
+=address.state
+%br
+Pin Code -
+=address.pin_code
+%br
+Address Type -
+=address.address_type
+%br
+  - if ! (local_assigns[:remove_actions])
+    .btn.btn-success
+      =link_to 'edit', edit_user_address_path(current_user.id, address.id, :redirect => checkout_path)
+    .btn.btn-danger
+      =link_to 'delete', delete_user_address_path(current_user.id, address.id, :redirect => checkout_path), method: :delete

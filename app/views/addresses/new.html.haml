@@ -1,0 +1,6 @@
+
+.container.mt-5
+  %h4
+    Add a new address
+  =form_for(@address, url: create_user_address_path, html: {method: :post}) do |f|
+    = render 'form', f: f

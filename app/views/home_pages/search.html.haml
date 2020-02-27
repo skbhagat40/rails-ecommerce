@@ -1,0 +1,12 @@
+.container.mt-5
+  %h4
+    Results for your search
+  -if @search_results && @search_results.length > 0
+    -@search_results.each do |product|
+      = render 'home_pages/product', product: product
+  -else
+    No Results Found. Please Try Different Search Keywords.
+  %br
+    %br
+      %footer
+        =link_to "Back", root_path

@@ -1,0 +1,21 @@
+%h2
+  Reviewing for
+%h5=@product.name
+%h5=@product.title
+- if @review.errors.any?
+  #error_explanation
+    %h2= "#{pluralize(@review.errors.count, "error")} prohibited this review from being saved:"
+    %ul
+      - @review.errors.full_messages.each do |message|
+        %li= message
+.field
+  = f.label :ratings
+  = f.number_field :ratings, min: 0
+.field
+  = f.label :title
+  = f.text_field :title
+.field
+= f.label :description
+= f.text_field :description
+.actions
+  = f.submit 'Save'

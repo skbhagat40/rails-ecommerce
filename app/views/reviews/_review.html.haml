@@ -1,0 +1,7 @@
+- if !@reviews.nil? && @reviews.length > 0
+  -@reviews.each do |review|
+    %h3= review.title
+    %h5= review.ratings
+    %p=review.description
+-else
+  No Reviews Posted Yet

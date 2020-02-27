@@ -1,0 +1,107 @@
+%p#notice= notice
+.mt-5.pt-5
+  .alert-success
+  .alert-success.wishlist
+  %h3.head
+    = @product.name
+  .top-div
+    .col-6
+      %p
+        %b Name:
+        = @product.name
+      %p
+        %b Title:
+        = @product.title
+      %p
+        %b Description:
+        = @product.description
+      %p
+        %b Price:
+        = @product.price
+      %p
+        %b Stock:
+        = @product.stock
+      %p
+        %b Vertical:
+        = @product.vertical
+      %p
+        %b Category:
+        = @product.category
+      %p
+        %b Discount:
+        = @product.discount
+      %p
+        %b Sold By:
+        = @product.seller.user.name
+
+      - if current_seller
+        = link_to 'Edit', edit_seller_product_path(current_seller.id, @product)
+        = link_to 'Back', seller_products_path(current_seller)
+      .card
+        Select Quantity
+        %btn.btn.btn-primary#add +
+        %span#quantity
+        %btn.btn.btn-danger#sub -
+    .col-6.image-container
+      %p
+      - @product.images.each do |img|
+        = image_tag(img, size: "50x50")
+  %br
+  %btn.btn.btn-success#addToCart +Add To Cart
+  |
+  %btn.btn.btn-success#addToWishList +Add To WishList
+  %span#cart_link= link_to add_product_to_cart_url
+  %span#wishlist_link= link_to add_product_to_wishlist_url
+  %span#product_id=@product.id
+  %span#status
+  = csrf_meta_tag
+.mt-5
+%btn.btn.btn-danger
+  =link_to "Write A Review", new_product_review_path(@product.id)
+%h3
+  List of Reviews
+  -@product.reviews.each do |review|
+    %h4
+      Review By
+      = review.user.name
+    %h4= review.title
+    %h6
+      %b
+        Ratings -
+      %b
+        = review.ratings
+        Stars
+    %p= review.description
+    - if review.user.id == current_user.id
+      =link_to "Edit", edit_product_review_path(@product.id, review.id)
+      =link_to "Delete", destroy_product_review_path(@product.id, review.id), method: :delete
+%script{:type=>"text/javascript"}
+  var quantity = 1
+  -#document.getElementById('test').innerText =
+  document.getElementById('quantity').innerText = quantity
+  document.getElementById('add').addEventListener('click', () => {quantity += 1; document.getElementById('quantity').innerText = quantity})
+  document.getElementById('sub').addEventListener('click', () => {quantity -= 1; quantity = quantity > 0 ? quantity : 1; document.getElementById('quantity').innerText = quantity})
+  -#-#document.getElementById('addToWishList').addEventListener('click', () => {})
+  document.getElementById('addToCart').addEventListener('click',  () => {
+  const res = fetch(document.getElementById('cart_link').firstChild.innerHTML,
+  {
+  method: 'POST',
+  body: JSON.stringify({product_id: document.getElementById('product_id').innerText, quantity: quantity}),
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+  headers: {'X-CSRF-Token':document.getElementsByName("csrf-token")[0].getAttribute("content")}
+  })
+  res.then((el) => (el.json())).then((el) =>{const doc = document.getElementsByClassName('alert-success')[0]; doc.innerText = el.message; setTimeout(() => doc.innerText = "", 2000)})
+  })
+  document.getElementById('addToWishList').addEventListener('click',  () => {
+  console.log('Hey There');
+  const res = fetch(document.getElementById('wishlist_link').firstChild.innerHTML,
+  {
+  method: 'POST',
+  body: JSON.stringify({product_id: document.getElementById('product_id').innerText}),
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+  headers: {'X-CSRF-Token':document.getElementsByName("csrf-token")[0].getAttribute("content")}
+  })
+  res.then((el) => (el.json())).then((el) =>{const doc = document.getElementsByClassName('wishlist')[0]; doc.innerText = el.message; setTimeout(() => doc.innerText = "", 2000)})
+  });

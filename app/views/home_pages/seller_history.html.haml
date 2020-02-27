@@ -1,0 +1,8 @@
+.container.mt-5
+  %h4 Total Revenue is -
+  =@total_revenue
+  %h4 Sold Products
+  -@sold_products.each do |pid, qty|
+    =render "home_pages/product", product: Product.find(pid)
+    Quantity
+    =qty || 0

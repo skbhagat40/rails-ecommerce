@@ -1,0 +1,7 @@
+%h1 Editing product
+=form_for @product, url: update_seller_product_path(current_seller.id), html: { method: :put } do |f|
+  = render 'form', f: f
+
+= link_to 'Show', seller_product_path(current_seller, @product)
+\|
+= link_to 'Back', seller_products_path(current_seller)

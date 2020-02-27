@@ -1,0 +1,38 @@
+%h1 Listing products
+
+%table
+  %thead
+    %tr
+      %th Seller
+      %th Name
+      %th Title
+      %th Description
+      %th Price
+      %th Stock
+      %th Vertical
+      %th Category
+      %th Discount
+      %th Has Images
+      %th
+      %th
+
+  %tbody
+    - @products.each do |product|
+      %tr
+        %td= product.seller.user.name
+        %td= product.name
+        %td= product.title
+        %td= product.description
+        %td= product.price
+        %td= product.stock
+        %td= product.vertical
+        %td= product.category
+        %td= product.discount
+        %td= product.images.attached?
+        %td= link_to 'Show', seller_product_path(current_seller, product)
+        %td= link_to 'Edit', edit_seller_product_path(current_seller, product)
+        %td= link_to 'Destroy', delete_seller_product_path(current_seller, product), method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Product', new_seller_product_path
