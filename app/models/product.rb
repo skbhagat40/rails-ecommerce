@@ -11,4 +11,5 @@ class Product < ApplicationRecord
   validates :name, :title, :description, :price, :stock, :vertical, :category, presence: true
   has_many :order_line_items
   has_many :orders, through: :order_line_items
+  has_many :wishlists, dependent: :destroy
 end

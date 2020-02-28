@@ -15,6 +15,14 @@ class HomePagesController < ApplicationController
   def add_product_to_cart
     request_params = eval(request.body.read)
     session[:products][request_params[:product_id]] = request_params[:quantity]
+    if request_params[:wishlist]
+      wishlist_item = current_user.wishlist.find_by(product_id: request_params[:product_id].to_i)
+      puts "wishlist item"* 20
+      puts wishlist_item.inspect
+      puts request_params.inspect
+      puts current_user.wishlist.first
+      wishlist_item&.destroy
+    end
     render json: {status: 200, message: "Product Added To Cart Successfully!"}
   end
 
@@ -51,7 +59,7 @@ class HomePagesController < ApplicationController
 
   #GET /wishlist
   def my_wishlist
-    @wishlists = Wishlist.all
+    @wishlists = current_user.wishlist
   end
 
   #GET /cart
@@ -113,7 +121,7 @@ class HomePagesController < ApplicationController
   end
 
   def seller_history
-    @sold_products = current_user.seller.order_line_items.group(:product_id).count
+    @sold_products = current_user.seller.order_line_items.group(:product_id).sum(:quantity)
     puts "sold products **" * 20
     puts @sold_products
     @total_revenue = 0
@@ -147,7 +155,7 @@ class HomePagesController < ApplicationController
   end
 
   def remove_current_user_session_params
-    session.delete(:products)
+    session[:products] = Hash.new
     session.delete(:total_amount)
     session.delete(:current_address)
   end

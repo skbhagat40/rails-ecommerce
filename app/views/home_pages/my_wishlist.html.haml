@@ -1,2 +1,36 @@
--@wishlists.each do |wishlist|
-  = render "product", product: Product.find(wishlist.product_id)
+.alert-success
+.container.mt-5
+  -if @wishlists && @wishlists.length > 0
+    -@wishlists.each do |wishlist|
+      = render "product", product: wishlist.product
+      -#.btn.btn-success
+      -#  =link_to "Add To Cart", add_product_to_cart_path, method: :post
+      %span#cart_link= link_to add_product_to_cart_url
+      %span#product_id=wishlist.product.id
+      .card
+        Select Quantity
+        %btn.btn.btn-primary#add +
+        %span#quantity
+        %btn.btn.btn-danger#sub -
+      %br
+      %btn.btn.btn-success#addToCart +Add To Cart
+  -else
+    There are no items in your wishlist.
+%script{:type=>"text/javascript"}
+  var quantity = 1
+  -#document.getElementById('test').innerText =
+  document.getElementById('quantity').innerText = quantity
+  document.getElementById('add').addEventListener('click', () => {quantity += 1; document.getElementById('quantity').innerText = quantity})
+  document.getElementById('sub').addEventListener('click', () => {quantity -= 1; quantity = quantity > 0 ? quantity : 1; document.getElementById('quantity').innerText = quantity})
+  -#-#document.getElementById('addToWishList').addEventListener('click', () => {})
+  document.getElementById('addToCart').addEventListener('click',  () => {
+  const res = fetch(document.getElementById('cart_link').firstChild.innerHTML,
+  {
+  method: 'POST',
+  body: JSON.stringify({product_id: document.getElementById('product_id').innerText, quantity: quantity, wishlist: true}),
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+  headers: {'X-CSRF-Token':document.getElementsByName("csrf-token")[0].getAttribute("content")}
+  })
+  res.then((el) => (el.json())).then((el) =>{const doc = document.getElementsByClassName('alert-success')[0]; doc.innerText = el.message; setTimeout(() => doc.innerText = "", 2000)})
+  })
