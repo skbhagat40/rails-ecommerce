@@ -8,8 +8,9 @@
 .container.mt-5.pt-5
   .top
     - if current_seller
-      Yay! you can add products now!!
-      = link_to "Add a product", new_seller_product_path(@current_seller)
+      %h4
+        .btn.btn-info
+          = link_to "Add a product", new_seller_product_path(@current_seller)
   -# =form_with(url: )
   =form_with(url: search_path, html: {method: :get}, local: true ) do |f|
     .field

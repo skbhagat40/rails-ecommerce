@@ -1,4 +1,5 @@
 class Product < ApplicationRecord
+  # default_scope -> {where("stock > ?", 0)}
   VERTICALS = {'MEN': 0, 'WOMEN': 1, 'ALL': 2}
   CATEGORIES = {'ELECTRONICS': 0, 'CLOTHING': 1, 'ACCESSORIES': 2, 'OTHER': 3}
   enum vertical: VERTICALS

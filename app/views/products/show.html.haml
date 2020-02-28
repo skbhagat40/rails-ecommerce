@@ -19,8 +19,9 @@
         %b Price:
         = @product.price
       %p
-        %b Stock:
-        = @product.stock
+        %b Stock
+        %span#stock
+          = @product.stock
       %p
         %b Vertical:
         = @product.vertical
@@ -47,7 +48,10 @@
       - @product.images.each do |img|
         = image_tag(img, size: "50x50")
   %br
-  %btn.btn.btn-success#addToCart +Add To Cart
+  -if @product.stock > 0
+    %btn.btn.btn-success#addToCart +Add To Cart
+  -else
+    This Product is out of Stock
   |
   %btn.btn.btn-success#addToWishList +Add To WishList
   %span#cart_link= link_to add_product_to_cart_url
@@ -76,11 +80,12 @@
       =link_to "Edit", edit_product_review_path(@product.id, review.id)
       =link_to "Delete", destroy_product_review_path(@product.id, review.id), method: :delete
 %script{:type=>"text/javascript"}
-  var quantity = 1
+  var quantity = 0
   -#document.getElementById('test').innerText =
   document.getElementById('quantity').innerText = quantity
-  document.getElementById('add').addEventListener('click', () => {quantity += 1; document.getElementById('quantity').innerText = quantity})
-  document.getElementById('sub').addEventListener('click', () => {quantity -= 1; quantity = quantity > 0 ? quantity : 1; document.getElementById('quantity').innerText = quantity})
+  const stock = parseInt(document.getElementById('stock').innerText)
+  document.getElementById('add').addEventListener('click', () => {quantity += 1; quantity = quantity > stock ? stock : quantity; document.getElementById('quantity').innerText = quantity})
+  document.getElementById('sub').addEventListener('click', () => {quantity -= 1; quantity = quantity >= 0 ? quantity : 0; document.getElementById('quantity').innerText = quantity})
   -#-#document.getElementById('addToWishList').addEventListener('click', () => {})
   document.getElementById('addToCart').addEventListener('click',  () => {
   const res = fetch(document.getElementById('cart_link').firstChild.innerHTML,

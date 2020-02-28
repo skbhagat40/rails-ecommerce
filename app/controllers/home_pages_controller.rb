@@ -93,6 +93,8 @@ class HomePagesController < ApplicationController
         product = get_product(pid)
         if product
           OrderLineItem.create(order_id: @order.id, product_id: product.id, quantity: qty)
+          product.stock = product.stock - qty || 0
+          product.save
         end
       end
       remove_current_user_session_params
