@@ -8,6 +8,7 @@ class User < ApplicationRecord
   validates :name, presence: true , length: {minimum: 2, maximum: 20}
   # validates :is_seller, presence: true
 
+  # TODO has_many association should be plural, addresses
   has_many :address, dependent: :destroy
   has_one :seller, dependent: :destroy
   has_many :wishlist, dependent: :destroy

@@ -19,6 +19,7 @@ class HomePagesController < ApplicationController
   # GET /search
   # params - title
   def search
+    # TODO use like operator
     @search_results = Product.where(title: params[:title])
   end
 

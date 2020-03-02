@@ -12,6 +12,7 @@ class Users::SessionsController < Devise::SessionsController
   # POST /resource/sign_in
   def create
     super
+    # TODO fix overriding cart value by using user_id scope
     session[:products] = Hash.new()
     if current_user.is_seller
       set_seller(current_user.seller)
@@ -28,6 +29,7 @@ class Users::SessionsController < Devise::SessionsController
   # protected
 
   # If you have extra params to permit, append them to the sanitizer.
+  # TODO remove unnecessary changes
   def configure_sign_in_params
     devise_parameter_sanitizer.for(:sign_up).push(:name, :surname,:username, :email, :avatar)
     devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])

@@ -11,6 +11,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
+  # TODO move this to a private method
   def add_seller
     if current_user.try(:is_seller)
       # puts (current_user.methods)
@@ -36,6 +37,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     super
     add_seller
   end
+
   # PUT /resource
   def update
     super
@@ -44,7 +46,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if current_user.seller.nil?
         current_user.seller = Seller.create(user_id: current_user.id)
         current_user.save
-        set_seller(current_user.seller)
       end
       set_seller(current_user.seller)
     else
